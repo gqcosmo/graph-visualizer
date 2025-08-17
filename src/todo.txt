@@ -1,0 +1,12 @@
+Graph
+    - Make a base class and add directed and undirected subclasses
+
+GraphPanel
+    - Draw edges between vertices, distinguish between directed and undirected graph
+
+GraphController
+    - Add logic to allow draggable vertices, use a stack to determine most recently added vertex
+
+
+Add a new panel to choose InteractiveState
+add new states
