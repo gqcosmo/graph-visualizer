@@ -25,11 +25,12 @@ public class GraphController implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        selectedVertices.clear();
+        if (!(state == InteractiveState.ADD_EDGE)) selectedVertices.clear();
 
         switch (state) {
             case InteractiveState.ADD_VERTEX: { handleAddVertex(e); break; }
             case InteractiveState.ADD_EDGE: {handleAddEdge(e); break; }
+            case InteractiveState.NONE:
             default:
         }
     }
