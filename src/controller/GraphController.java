@@ -4,7 +4,8 @@ import java.awt.HeadlessException;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 
 import config.VertexSettings;
 import model.Vertex;
@@ -14,13 +15,13 @@ import view.GraphPanel;
 public class GraphController implements MouseListener {
     private final GraphPanel graphPanel;
     private final Graph graph;
-    private final ArrayList<Vertex> selectedVertices;
+    private final HashSet<Vertex> selectedVertices;
     private InteractiveState state = InteractiveState.NONE;
 
     public GraphController(GraphPanel graphPanel, Graph graph) {
         this.graphPanel = graphPanel;
         this.graph = graph;
-        selectedVertices = new ArrayList<>();
+        selectedVertices = new HashSet<>();
     }
 
     @Override
@@ -86,14 +87,23 @@ public class GraphController implements MouseListener {
 
         selectedVertices.add(clicked);
         if (selectedVertices.size() == 2) {
+            Iterator<Vertex> it = selectedVertices.iterator();
+            Vertex src = it.next();
+            Vertex dest = it.next();
+
+            if (graph.containsEdge(src, dest, false)) {
+                selectedVertices.clear();
+                return;
+            }
+
             Double weight = numberInputDialog("Enter edge weight: ",
                     "Weight is not a number",
                     "AddEdge Error",
                     true);
 
-            graph.addEdge(selectedVertices.get(0), selectedVertices.get(1), weight);
-            selectedVertices.clear();
+            graph.addEdge(src, dest, weight);
             graphPanel.repaint();
+            selectedVertices.clear();
         }
     }
 
@@ -101,7 +111,7 @@ public class GraphController implements MouseListener {
         while (true) {
             try {
                 String numStr = JOptionPane.showInputDialog(text);
-                if (allowNull && numStr.isEmpty()) {
+                if (allowNull && (numStr == null || numStr.isEmpty())) {
                     return null;
                 }
 

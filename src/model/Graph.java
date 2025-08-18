@@ -1,10 +1,7 @@
 package model;
 
 import java.awt.Point;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.ArrayList;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class Graph {
     private final LinkedHashMap<Vertex, LinkedList<Edge>> map = new LinkedHashMap<>();
@@ -48,5 +45,14 @@ public class Graph {
         }
 
         return null;
+    }
+
+    public boolean containsEdge(Vertex src, Vertex dest, boolean isDirected) {
+        for (Edge edge : map.get(src)) {
+            if (edge.getDest() == dest) return true;
+            if (!isDirected && edge.getSrc() == dest) return true;
+        }
+
+        return false;
     }
 }
