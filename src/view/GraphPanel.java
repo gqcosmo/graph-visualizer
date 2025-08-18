@@ -12,11 +12,12 @@ import java.util.ArrayList;
 
 import config.VertexSettings;
 import model.Edge;
-import model.Graph;
 import model.Vertex;
+import model.Graph;
 
 public class GraphPanel extends JPanel {
     private final Graph graph;
+
     public GraphPanel(Graph graph) {
         this.graph = graph;
         setBackground(Color.BLACK);

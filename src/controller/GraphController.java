@@ -8,8 +8,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import config.VertexSettings;
-import model.Vertex;
 import model.Graph;
+import model.Vertex;
 import view.GraphPanel;
 
 public class GraphController implements MouseListener {
@@ -91,7 +91,7 @@ public class GraphController implements MouseListener {
             Vertex src = it.next();
             Vertex dest = it.next();
 
-            if (graph.containsEdge(src, dest, false)) {
+            if (graph.containsEdge(src, dest)) {
                 selectedVertices.clear();
                 return;
             }
@@ -125,5 +125,4 @@ public class GraphController implements MouseListener {
                     JOptionPane.ERROR_MESSAGE);
         }
     }
-
 }

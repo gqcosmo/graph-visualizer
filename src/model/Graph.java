@@ -1,21 +1,25 @@
 package model;
 
 import java.awt.Point;
+
 import java.util.*;
 
-public class Graph {
-    private final LinkedHashMap<Vertex, LinkedList<Edge>> map = new LinkedHashMap<>();
+public abstract class Graph {
+    protected final LinkedHashMap<Vertex, LinkedList<Edge>> map = new LinkedHashMap<>();
+    protected final boolean IS_DIRECTED;
+    private final boolean IS_WEIGHTED;
+
+    public Graph(boolean isDirected, boolean isWeighted) {
+        IS_DIRECTED = isDirected;
+        IS_WEIGHTED = isWeighted;
+    }
+
+    public abstract void addEdge(Vertex src, Vertex dest, Double weight);
+    public abstract boolean containsEdge(Vertex src, Vertex dest);
 
     public void addVertex(Vertex vertex) {
         if (map.containsKey(vertex)) return;
         map.put(vertex, new LinkedList<>());
-    }
-
-    public void addEdge(Vertex src, Vertex dest, Double weight) {
-        if (!(map.containsKey(src)) || !(map.containsKey(dest))) return;
-        Edge edge = new Edge(src, dest, weight);
-        map.get(src).add(edge);
-        map.get(dest).add(edge);
     }
 
     public LinkedList<Vertex> getVertices() {
@@ -47,12 +51,11 @@ public class Graph {
         return null;
     }
 
-    public boolean containsEdge(Vertex src, Vertex dest, boolean isDirected) {
-        for (Edge edge : map.get(src)) {
-            if (edge.getDest() == dest) return true;
-            if (!isDirected && edge.getSrc() == dest) return true;
-        }
+    public boolean isDirected() {
+        return IS_DIRECTED;
+    }
 
-        return false;
+    public boolean isWeighted() {
+        return IS_WEIGHTED;
     }
 }
