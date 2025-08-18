@@ -1,30 +1,31 @@
 package model;
-import controller.InteractiveState;
 
 import java.awt.Point;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
 public class Graph {
-    private final HashMap<Vertex, ArrayList<Vertex>> map = new HashMap<>();
+    private final LinkedHashMap<Vertex, LinkedList<Edge>> map = new LinkedHashMap<>();
 
     public void addVertex(Vertex vertex) {
         if (map.containsKey(vertex)) return;
-        map.put(vertex, new ArrayList<>());
+        map.put(vertex, new LinkedList<>());
     }
 
-    public void addEdge(Vertex src, Vertex dest) {
+    public void addEdge(Vertex src, Vertex dest, Double weight) {
         if (!(map.containsKey(src)) || !(map.containsKey(dest))) return;
-        map.get(src).add(dest);
-        map.get(dest).add(src);
+        Edge edge = new Edge(src, dest, weight);
+        map.get(src).add(edge);
+        map.get(dest).add(edge);
     }
 
-    public ArrayList<Vertex> getVertices() {
-        return new ArrayList<>(map.keySet());
+    public LinkedList<Vertex> getVertices() {
+        return new LinkedList<>(map.keySet());
     }
 
-    public ArrayList<Vertex> getEdges(Vertex vertex) {
+    public ArrayList<Edge> getEdges(Vertex vertex) {
         if (!(map.containsKey(vertex))) {
             throw new NoSuchElementException();
         }
@@ -39,5 +40,13 @@ public class Graph {
         }
 
         return false;
+    }
+
+    public Vertex getVertexAt(Point p) {
+        for (Vertex v : map.reversed().keySet()) {
+            if (v.isInVertex(p)) return v;
+        }
+
+        return null;
     }
 }
