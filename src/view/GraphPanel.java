@@ -16,16 +16,21 @@ import model.Vertex;
 import model.Graph;
 
 public class GraphPanel extends JPanel {
-    private final Graph graph;
+    private Graph graph;
 
-    public GraphPanel(Graph graph) {
-        this.graph = graph;
+    public GraphPanel() {
         setBackground(Color.BLACK);
+    }
+
+    public void setGraph(Graph graph) {
+        this.graph = graph;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        if (graph == null) return;
 
         int radius = 20;
         g.setFont(new Font("Courier", Font.BOLD, radius));

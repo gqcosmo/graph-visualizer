@@ -8,24 +8,36 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import config.VertexSettings;
+import model.DirectedGraph;
 import model.Graph;
+import model.UndirectedGraph;
 import model.Vertex;
 import view.GraphPanel;
 
 public class GraphController implements MouseListener {
+    private Graph graph;
     private final GraphPanel graphPanel;
-    private final Graph graph;
     private final HashSet<Vertex> selectedVertices;
     private InteractiveState state = InteractiveState.NONE;
 
-    public GraphController(GraphPanel graphPanel, Graph graph) {
+    public GraphController(GraphPanel graphPanel) {
         this.graphPanel = graphPanel;
-        this.graph = graph;
         selectedVertices = new HashSet<>();
+    }
+
+    public void createGraph(String graphType, String edgeType) {
+        boolean isDirected = graphType.equals("Directed");
+        boolean isWeighted = edgeType.equals("Weighted");
+        graph = isDirected ? new DirectedGraph(isWeighted) : new UndirectedGraph(isWeighted);
+        graphPanel.setGraph(graph);
+        graphPanel.repaint();
+        state = InteractiveState.NONE;
+        selectedVertices.clear();
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if (graph == null) return;
         if (!(state == InteractiveState.ADD_EDGE)) selectedVertices.clear();
 
         switch (state) {
@@ -70,7 +82,7 @@ public class GraphController implements MouseListener {
                         JOptionPane.ERROR_MESSAGE);
             } else {
                 graph.addVertex(new Vertex(label, e.getPoint(), VertexSettings.DEFAULT_RADIUS));
-                graphPanel.repaint();
+                e.getComponent().repaint();
             }
             return;
         }
@@ -96,10 +108,14 @@ public class GraphController implements MouseListener {
                 return;
             }
 
-            Double weight = numberInputDialog("Enter edge weight: ",
-                    "Weight is not a number",
-                    "AddEdge Error",
-                    true);
+            Double weight = null;
+
+            if (graph.isWeighted()) {
+                weight = numberInputDialog("Enter edge weight: ",
+                        "Weight is not a number",
+                        "AddEdge Error",
+                        true);
+            }
 
             graph.addEdge(src, dest, weight);
             graphPanel.repaint();
