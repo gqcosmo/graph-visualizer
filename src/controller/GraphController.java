@@ -116,8 +116,7 @@ public class GraphController implements MouseListener {
             if (graph.isWeighted()) {
                 weight = numberInputDialog("Enter edge weight: ",
                         "Weight is not a number",
-                        "AddEdge Error",
-                        true);
+                        "AddEdge Error");
             }
 
             graph.addEdge(src, dest, weight);
@@ -153,15 +152,12 @@ public class GraphController implements MouseListener {
         }
     }
 
-    private Double numberInputDialog(String text, String errorMessage, String errorTitle, boolean allowNull) {
+    private Double numberInputDialog(String text, String errorMessage, String errorTitle) {
         while (true) {
             try {
                 String numStr = JOptionPane.showInputDialog(text);
-                if (allowNull && (numStr == null || numStr.isEmpty())) {
-                    return null;
-                }
-
                 return Double.parseDouble(numStr);
+
             } catch (HeadlessException | NumberFormatException _) {
             }
 
