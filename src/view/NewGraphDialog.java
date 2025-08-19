@@ -1,7 +1,13 @@
 package view;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
 
 public class NewGraphDialog extends JDialog {
     private final JComboBox<String> graphTypeBox;

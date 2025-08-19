@@ -1,6 +1,10 @@
 package view;
 
-import javax.swing.*;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import controller.*;
 
