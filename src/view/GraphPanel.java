@@ -29,12 +29,15 @@ public class GraphPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        if (graph == null) return;
-
         int radius = 20;
         g.setFont(new Font("Courier", Font.BOLD, radius));
-        FontMetrics fm = g.getFontMetrics();
+        Graphics2D g2 = (Graphics2D) g;
+        FontMetrics fm = g2.getFontMetrics();
+
+        if (graph == null) {
+            createMessage(g2, fm);
+            return;
+        }
 
         HashSet<Edge> drawnEdges = new HashSet<>();
 
@@ -42,7 +45,7 @@ public class GraphPanel extends JPanel {
             g.setColor(Color.WHITE);
             g.fillOval(v.getX() - radius, v.getY() - radius, radius * 2, radius * 2);
 
-            drawEdges(g, v, drawnEdges);
+            drawEdges(g, g2, v, drawnEdges);
 
             g.setColor(Color.BLACK);
             int textWidth = fm.stringWidth(v.getLabel());
@@ -52,7 +55,17 @@ public class GraphPanel extends JPanel {
         }
     }
 
-    private void drawEdges(Graphics g, Vertex v, HashSet<Edge> drawn) {
+    private void createMessage(Graphics2D g2, FontMetrics fm) {
+        String message = "Create new graph to get started";
+        int textWidth = fm.stringWidth(message);
+        int textHeight = fm.getHeight();
+        int x = (getWidth() - textWidth) / 2;
+        int y = (getHeight() - textHeight) / 2 + fm.getAscent();
+        g2.setColor(Color.WHITE);
+        g2.drawString(message, x, y);
+    }
+
+    private void drawEdges(Graphics g, Graphics2D g2, Vertex v, HashSet<Edge> drawn) {
         ArrayList<Edge> edges = graph.getEdges(v);
 
         for (Edge edge : edges) {
@@ -63,10 +76,8 @@ public class GraphPanel extends JPanel {
             Vertex p1 = edge.getSrc();
             Vertex p2 = edge.getDest();
 
-            Graphics2D g2 = (Graphics2D) g;
             g2.setStroke(new BasicStroke((float) VertexSettings.DEFAULT_RADIUS / 10));
             g.drawLine(p1.getX(), p1.getY(), p2.getX(), p2.getY());
-            g2.setStroke(new BasicStroke(1f));  // default
 
             if (!edge.isWeighted()) continue;
             String weight = Double.toString(edge.getWeight());
