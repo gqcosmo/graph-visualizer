@@ -25,16 +25,17 @@ public class UndirectedGraph extends Graph {
 
     @Override
     public void removeVertex(Vertex vertex) {
-        for (Vertex v : map.keySet()) {
-            if (v == vertex) continue;
+        Iterator<Edge> it = edges.iterator();
 
-            Iterator<Edge> it = map.get(v).iterator();
-            while (it.hasNext()) {
-                Edge e = it.next();
-                if (e.getSrc() == vertex || e.getDest() == vertex) {
-                    it.remove();
-                    removeEdge(e);
-                }
+        while (it.hasNext()) {
+            Edge edge = it.next();
+            Vertex src = edge.getSrc();
+            Vertex dest = edge.getDest();
+
+            if (src == vertex || dest == vertex) {
+                map.get(src).remove(edge);
+                map.get(dest).remove(edge);
+                it.remove();
             }
         }
 

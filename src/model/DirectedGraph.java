@@ -24,16 +24,20 @@ public class DirectedGraph extends Graph {
 
     @Override
     public void removeVertex(Vertex vertex) {
+        for (Edge edge : map.get(vertex)) {
+            edges.remove(edge);
+        }
+
         for (Vertex v : map.keySet()) {
             if (v == vertex) continue;
 
             Iterator<Edge> it = map.get(v).iterator();
             while (it.hasNext()) {
-                Edge e = it.next();
+                Edge edge = it.next();
 
-                if (e.getDest() == vertex) {
+                if (edge.getDest() == vertex) {
                     it.remove();
-                    removeEdge(e);
+                    edges.remove(edge);
                 }
             }
         }
