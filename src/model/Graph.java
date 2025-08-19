@@ -18,6 +18,7 @@ public abstract class Graph {
 
     public abstract void addEdge(Vertex src, Vertex dest, Double weight);
     public abstract boolean containsEdge(Vertex src, Vertex dest);
+    public abstract void removeVertex(Vertex vertex);
 
     public void addVertex(Vertex vertex) {
         if (map.containsKey(vertex)) return;

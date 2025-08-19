@@ -40,6 +40,12 @@ public class GraphMenuBar extends JMenuBar {
             modeBar.setText("Mode: Add Edge");
         });
 
+        JMenuItem removeVertex = new JMenuItem("Remove a vertex");
+        removeVertex.addActionListener(e -> {
+            controller.setState(InteractiveState.REMOVE_VERTEX);
+            modeBar.setText("Mode: Remove Vertex");
+        });
+
         JMenuItem none = new JMenuItem("None");
         none.addActionListener(e -> {
                     controller.setState(InteractiveState.NONE);
@@ -48,6 +54,7 @@ public class GraphMenuBar extends JMenuBar {
 
         modeBar.add(addVertex);
         modeBar.add(addEdge);
+        modeBar.add(removeVertex);
         modeBar.add(none);
     }
 }

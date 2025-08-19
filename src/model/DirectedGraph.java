@@ -1,4 +1,5 @@
 package model;
+import java.util.Iterator;
 
 public class DirectedGraph extends Graph {
     public DirectedGraph(boolean isWeighted) {
@@ -14,6 +15,26 @@ public class DirectedGraph extends Graph {
 
     @Override
     public boolean containsEdge(Vertex src, Vertex dest) {
+        for (Edge edge : map.get(src)) {
+            if (edge.getDest() == dest) return true;
+        }
         return false;
+    }
+
+    @Override
+    public void removeVertex(Vertex vertex) {
+        for (Vertex v : map.keySet()) {
+            if (v == vertex) continue;
+
+            Iterator<Edge> it = map.get(v).iterator();
+            while (it.hasNext()) {
+                Edge e = it.next();
+                if (e.getDest() == vertex) {
+                    it.remove();
+                }
+            }
+        }
+
+        map.remove(vertex);
     }
 }

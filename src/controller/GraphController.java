@@ -42,6 +42,8 @@ public class GraphController implements MouseListener {
         switch (state) {
             case InteractiveState.ADD_VERTEX: { handleAddVertex(e); break; }
             case InteractiveState.ADD_EDGE: {handleAddEdge(e); break; }
+            case InteractiveState.REMOVE_VERTEX: { handleRemoveVertex(e); break; }
+            case InteractiveState.REMOVE_EDGE: { break; }
             case InteractiveState.NONE:
             default:
         }
@@ -120,6 +122,14 @@ public class GraphController implements MouseListener {
             graphPanel.repaint();
             selectedVertices.clear();
         }
+    }
+
+    private void handleRemoveVertex(MouseEvent e) {
+        Vertex clicked = graph.getVertexAt(e.getPoint());
+        if (clicked == null) return;
+
+        graph.removeVertex(clicked);
+        graphPanel.repaint();
     }
 
     private Double numberInputDialog(String text, String errorMessage, String errorTitle, boolean allowNull) {

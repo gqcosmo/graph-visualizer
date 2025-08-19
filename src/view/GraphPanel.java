@@ -7,7 +7,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 import java.awt.Font;
-import java.awt.geom.AffineTransform;
 import java.util.HashSet;
 import java.util.ArrayList;
 

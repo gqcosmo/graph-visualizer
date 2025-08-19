@@ -1,4 +1,5 @@
 package model;
+import java.util.Iterator;
 
 public class UndirectedGraph extends Graph {
     public UndirectedGraph(boolean isWeighted) {
@@ -18,7 +19,23 @@ public class UndirectedGraph extends Graph {
         for (Edge edge : map.get(src)) {
             if (edge.getDest() == dest || edge.getSrc() == dest) return true;
         }
-
         return false;
+    }
+
+    @Override
+    public void removeVertex(Vertex vertex) {
+        for (Vertex v : map.keySet()) {
+            if (v == vertex) continue;
+
+            Iterator<Edge> it = map.get(v).iterator();
+            while (it.hasNext()) {
+                Edge e = it.next();
+                if (e.getSrc() == vertex || e.getDest() == vertex) {
+                    it.remove();
+                }
+            }
+        }
+
+        map.remove(vertex);
     }
 }
