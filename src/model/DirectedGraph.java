@@ -28,20 +28,15 @@ public class DirectedGraph extends Graph {
             edges.remove(edge);
         }
 
-        for (Vertex v : map.keySet()) {
-            if (v == vertex) continue;
+        Iterator<Edge> it = edges.iterator();
+        while (it.hasNext()) {
+            Edge edge = it.next();
 
-            Iterator<Edge> it = map.get(v).iterator();
-            while (it.hasNext()) {
-                Edge edge = it.next();
-
-                if (edge.getDest() == vertex) {
-                    it.remove();
-                    edges.remove(edge);
-                }
+            if (edge.getDest() == vertex) {
+                map.get(edge.getDest()).remove(edge);
+                it.remove();
             }
         }
-
         map.remove(vertex);
     }
 
