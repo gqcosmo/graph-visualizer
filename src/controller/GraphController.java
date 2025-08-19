@@ -31,7 +31,6 @@ public class GraphController implements MouseListener {
         graph = isDirected ? new DirectedGraph(isWeighted) : new UndirectedGraph(isWeighted);
         graphPanel.setGraph(graph);
         graphPanel.repaint();
-        state = InteractiveState.NONE;
         selectedVertices.clear();
     }
 
