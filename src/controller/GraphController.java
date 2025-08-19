@@ -6,12 +6,15 @@ import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.awt.geom.Line2D;
+import java.awt.Point;
 
 import config.VertexSettings;
 import model.DirectedGraph;
 import model.Graph;
 import model.UndirectedGraph;
 import model.Vertex;
+import model.Edge;
 import view.GraphPanel;
 
 public class GraphController implements MouseListener {
@@ -43,7 +46,7 @@ public class GraphController implements MouseListener {
             case InteractiveState.ADD_VERTEX: { handleAddVertex(e); break; }
             case InteractiveState.ADD_EDGE: {handleAddEdge(e); break; }
             case InteractiveState.REMOVE_VERTEX: { handleRemoveVertex(e); break; }
-            case InteractiveState.REMOVE_EDGE: { break; }
+            case InteractiveState.REMOVE_EDGE: { handleRemoveEdge(e); break; }
             case InteractiveState.NONE:
             default:
         }
@@ -130,6 +133,25 @@ public class GraphController implements MouseListener {
 
         graph.removeVertex(clicked);
         graphPanel.repaint();
+    }
+
+    private void handleRemoveEdge(MouseEvent e) {
+        HashSet<Edge> edges = graph.getEdges();
+
+        for (Edge edge : edges) {
+            int p1_x = edge.getSrc().getX();
+            int p1_y = edge.getSrc().getY();
+            int p2_x = edge.getDest().getX();
+            int p2_y = edge.getDest().getY();
+
+            double dist = Line2D.ptSegDist(p1_x, p1_y, p2_x, p2_y, e.getX(), e.getY());
+
+            if (dist < 5) {
+                graph.removeEdge(edge);
+                graphPanel.repaint();
+                return;
+            }
+        }
     }
 
     private Double numberInputDialog(String text, String errorMessage, String errorTitle, boolean allowNull) {

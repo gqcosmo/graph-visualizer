@@ -8,7 +8,6 @@ import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 import java.awt.Font;
 import java.util.HashSet;
-import java.util.ArrayList;
 
 import config.VertexSettings;
 import model.Edge;
@@ -39,14 +38,11 @@ public class GraphPanel extends JPanel {
             return;
         }
 
-        HashSet<Edge> drawnEdges = new HashSet<>();
+        drawEdges(g, g2);
 
         for (Vertex v : graph.getVertices()) {
             g.setColor(Color.WHITE);
             g.fillOval(v.getX() - radius, v.getY() - radius, radius * 2, radius * 2);
-
-            drawEdges(g, g2, v, drawnEdges);
-
             g.setColor(Color.BLACK);
             int textWidth = fm.stringWidth(v.getLabel());
             int textHeight = fm.getAscent();
@@ -65,13 +61,10 @@ public class GraphPanel extends JPanel {
         g2.drawString(message, x, y);
     }
 
-    private void drawEdges(Graphics g, Graphics2D g2, Vertex v, HashSet<Edge> drawn) {
-        ArrayList<Edge> edges = graph.getEdges(v);
+    private void drawEdges(Graphics g, Graphics2D g2) {
+        HashSet<Edge> edges = graph.getEdges();
 
         for (Edge edge : edges) {
-            if (drawn.contains(edge)) continue;
-            drawn.add(edge);
-
             g.setColor(Color.WHITE);
             Vertex p1 = edge.getSrc();
             Vertex p2 = edge.getDest();

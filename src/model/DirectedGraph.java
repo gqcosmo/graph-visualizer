@@ -11,6 +11,7 @@ public class DirectedGraph extends Graph {
         if (!(map.containsKey(src)) || !(map.containsKey(dest))) return;
         Edge edge = new Edge(src, dest, weight);
         map.get(src).add(edge);
+        edges.add(edge);
     }
 
     @Override
@@ -36,5 +37,11 @@ public class DirectedGraph extends Graph {
         }
 
         map.remove(vertex);
+    }
+
+    @Override
+    public void removeEdge(Edge edge) {
+        map.get(edge.getSrc()).remove(edge);
+        edges.remove(edge);
     }
 }

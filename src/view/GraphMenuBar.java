@@ -28,22 +28,28 @@ public class GraphMenuBar extends JMenuBar {
         JMenu modeBar = new JMenu("Mode: None");
         add(modeBar);
 
-        JMenuItem addVertex = new JMenuItem("Add a vertex");
+        JMenuItem addVertex = new JMenuItem("Add vertex");
         addVertex.addActionListener(e -> {
                     controller.setState(InteractiveState.ADD_VERTEX);
                     modeBar.setText("Mode: Add Vertex");
                 });
 
-        JMenuItem addEdge = new JMenuItem("Add an edge");
+        JMenuItem addEdge = new JMenuItem("Add edge");
         addEdge.addActionListener(e -> {
             controller.setState(InteractiveState.ADD_EDGE);
             modeBar.setText("Mode: Add Edge");
         });
 
-        JMenuItem removeVertex = new JMenuItem("Remove a vertex");
+        JMenuItem removeVertex = new JMenuItem("Remove vertex");
         removeVertex.addActionListener(e -> {
             controller.setState(InteractiveState.REMOVE_VERTEX);
             modeBar.setText("Mode: Remove Vertex");
+        });
+
+        JMenuItem removeEdge = new JMenuItem("Remove edge");
+        removeEdge.addActionListener(e -> {
+            controller.setState(InteractiveState.REMOVE_EDGE);
+            modeBar.setText("Mode: Remove Edge");
         });
 
         JMenuItem none = new JMenuItem("None");
@@ -55,6 +61,7 @@ public class GraphMenuBar extends JMenuBar {
         modeBar.add(addVertex);
         modeBar.add(addEdge);
         modeBar.add(removeVertex);
+        modeBar.add(removeEdge);
         modeBar.add(none);
     }
 }
