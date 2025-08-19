@@ -7,7 +7,6 @@ import javax.swing.JOptionPane;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.awt.geom.Line2D;
-import java.awt.Point;
 
 import config.VertexSettings;
 import model.DirectedGraph;
@@ -146,7 +145,7 @@ public class GraphController implements MouseListener {
 
             double dist = Line2D.ptSegDist(p1_x, p1_y, p2_x, p2_y, e.getX(), e.getY());
 
-            if (dist < 5) {
+            if (dist < 2) {
                 graph.removeEdge(edge);
                 graphPanel.repaint();
                 return;

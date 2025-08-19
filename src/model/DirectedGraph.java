@@ -30,8 +30,10 @@ public class DirectedGraph extends Graph {
             Iterator<Edge> it = map.get(v).iterator();
             while (it.hasNext()) {
                 Edge e = it.next();
+
                 if (e.getDest() == vertex) {
                     it.remove();
+                    removeEdge(e);
                 }
             }
         }

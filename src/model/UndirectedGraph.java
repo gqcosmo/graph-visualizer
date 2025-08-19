@@ -33,6 +33,7 @@ public class UndirectedGraph extends Graph {
                 Edge e = it.next();
                 if (e.getSrc() == vertex || e.getDest() == vertex) {
                     it.remove();
+                    removeEdge(e);
                 }
             }
         }

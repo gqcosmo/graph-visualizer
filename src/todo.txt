@@ -1,4 +1,1 @@
-- upon starting application, prompt user to choose
-    type of graph and type of weights ( graphChoice() in MainFrame)
-
-- fix logic in GraphPanel and GraphController to accommodate for these changes
+add algorithms
