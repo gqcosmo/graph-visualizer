@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.BasicStroke;
 import java.awt.Font;
+import java.awt.geom.AffineTransform;
 import java.util.HashSet;
 import java.util.ArrayList;
 
@@ -82,15 +83,26 @@ public class GraphPanel extends JPanel {
             if (!edge.isWeighted()) continue;
             String weight = Double.toString(edge.getWeight());
 
-            int midX = (p1.getX() + p2.getX()) / 2;
-            int midY = (p1.getY() + p2.getY()) / 2;
+            double midX = (p1.getX() + p2.getX()) / 2.0;
+            double midY = (p1.getY() + p2.getY()) / 2.0;
+            double dx = p2.getX() - p1.getX();
+            double dy = p2.getY() - p1.getY();
+            double angle = Math.atan2(dy, dx);
+
+            double offset = -10;
+            double offsetX = -offset * Math.sin(angle);
+            double offsetY = offset * Math.cos(angle);
+
+            AffineTransform original = g2.getTransform();
+            g2.translate(midX + offsetX, midY + offsetY);
+            g2.rotate(angle);
 
             FontMetrics fm = g2.getFontMetrics();
             int textWidth = fm.stringWidth(weight);
-            int textHeight = fm.getAscent();
 
             g2.setColor(Color.RED);
-            g2.drawString(weight, midX - textWidth / 2, midY + textHeight / 2);
+            g2.drawString(weight, -textWidth / 2, fm.getAscent() / 2);
+            g2.setTransform(original);
         }
     }
 }
