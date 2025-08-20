@@ -8,7 +8,7 @@ import java.util.HashSet;
 public abstract class Graph {
     protected final LinkedHashMap<Vertex, LinkedList<Edge>> map = new LinkedHashMap<>();
     protected final HashSet<Edge> edges;
-    protected final boolean IS_DIRECTED;
+    private final boolean IS_DIRECTED;
     private final boolean IS_WEIGHTED;
 
     public Graph(boolean isDirected, boolean isWeighted) {
@@ -51,7 +51,5 @@ public abstract class Graph {
     }
 
     public boolean isDirected() { return IS_DIRECTED; }
-    public boolean isWeighted() {
-        return IS_WEIGHTED;
-    }
+    public boolean isWeighted() { return IS_WEIGHTED; }
 }

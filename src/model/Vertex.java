@@ -6,11 +6,14 @@ public class Vertex {
     private final String label;
     private final Point location;
     private final int radius;
+    private final int id;
+    private static int currentId = 0;
 
     public Vertex(String label, Point location, int radius) {
         this.label = label;
         this.location = location;
         this.radius = radius;
+        this.id = ++currentId;
     }
 
     public String getLabel() {
@@ -32,4 +35,6 @@ public class Vertex {
 
         return distSq <= radius * radius;
     }
+
+    public int getId() { return id; }
 }

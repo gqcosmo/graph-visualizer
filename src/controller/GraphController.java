@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JOptionPane;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Iterator;
 import java.awt.geom.Line2D;
 
@@ -19,12 +20,12 @@ import view.GraphPanel;
 public class GraphController implements MouseListener {
     private Graph graph;
     private final GraphPanel graphPanel;
-    private final HashSet<Vertex> selectedVertices;
+    private final LinkedHashSet<Vertex> selectedVertices;
     private InteractiveState state = InteractiveState.NONE;
 
     public GraphController(GraphPanel graphPanel) {
         this.graphPanel = graphPanel;
-        selectedVertices = new HashSet<>();
+        selectedVertices = new LinkedHashSet<>();
     }
 
     public void createGraph(String graphType, String edgeType) {

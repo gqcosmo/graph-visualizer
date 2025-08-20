@@ -68,22 +68,81 @@ public class GraphPanel extends JPanel {
             g.setColor(Color.WHITE);
             Vertex p1 = edge.getSrc();
             Vertex p2 = edge.getDest();
+            int x1 = p1.getX();
+            int y1 = p1.getY();
+            int x2 = p2.getX();
+            int y2 = p2.getY();
+            boolean negateWeightX = false;
+            boolean negateWeightY = false;
 
-            g2.setStroke(new BasicStroke((float) VertexSettings.DEFAULT_RADIUS / 10));
-            g.drawLine(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+            if (graph.containsEdge(p2, p1)) {
+                int gap = 7;
+                double dx = x2 - x1;
+                double dy = y2 - y1;
+                double len = Math.hypot(dx, dy);
+                double perpX = -dy / len;
+                double perpY = dx / len;
+
+                int shiftX = (int) Math.round(perpX * gap);
+                int shiftY = (int) Math.round(perpY * gap);
+
+                if (shiftY < 0) { negateWeightY = true; }
+                if (shiftX > 0) { negateWeightX = true; }
+
+                x1 += shiftX;
+                y1 += shiftY;
+                x2 += shiftX;
+                y2 += shiftY;
+            }
+
+            if (graph.isDirected()) {
+                drawArrow(g, x1, y1, x2, y2);
+            } else {
+                g2.setStroke(new BasicStroke((float) VertexSettings.DEFAULT_RADIUS / 10));
+                g2.drawLine(x1, y1, x2, y2);
+            }
 
             if (!edge.isWeighted()) continue;
-            String weight = Double.toString(edge.getWeight());
 
-            int midX = (p1.getX() + p2.getX()) / 2;
-            int midY = (p1.getY() + p2.getY()) / 2;
+            int midX = (x1 + x2) / 2;
+            int midY = (y1 + y2) / 2;
 
             FontMetrics fm = g2.getFontMetrics();
+            String weight = Double.toString(edge.getWeight());
             int textWidth = fm.stringWidth(weight);
             int textHeight = fm.getAscent();
 
+            if (negateWeightY) { textHeight *= -1; }
+            if (negateWeightX) { textWidth *= -1; }
+
             g2.setColor(Color.RED);
-            g2.drawString(weight, midX - textWidth / 2, midY + textHeight / 2 + textHeight);
+            g2.drawString(weight,
+                    midX - (negateWeightY ? -textWidth : textWidth) / 2,
+                    midY + textHeight / 2 + (negateWeightY ? 0 : textHeight));
+        }
+    }
+
+    private void drawArrow(Graphics g, int x1, int y1, int x2, int y2) {
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(new BasicStroke((float) VertexSettings.DEFAULT_RADIUS / 10));
+        g2.drawLine(x1, y1, x2, y2);
+
+        double phi = Math.toRadians(30);
+        int barb = 10;
+
+        double dx = x2 - x1;
+        double dy = y2 - y1;
+        double theta = Math.atan2(dy, dx);
+
+        int r = VertexSettings.DEFAULT_RADIUS;
+        x2 -= (int) (r * Math.cos(theta));
+        y2 -= (int) (r * Math.sin(theta));
+
+        for (int j = 0; j < 2; j++) {
+            double rho = theta + (j == 0 ? phi : -phi);
+            int x = (int) (x2 - barb * Math.cos(rho));
+            int y = (int) (y2 - barb * Math.sin(rho));
+            g2.drawLine(x2, y2, x, y);
         }
     }
 }
